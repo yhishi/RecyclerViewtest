@@ -14,23 +14,24 @@ private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Any>() {
     override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean = oldItem == newItem
     override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean = oldItem == newItem
 }
+private val dataList: MutableList<Any> = mutableListOf()
 
 class MyAdapter(
     context: Context, data: MutableList<String>
 ) : ListAdapter<Any, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     init {
-        val list: MutableList<Any> = mutableListOf()
-
-        list.add(HeaderData(title = "headerだよ"))
-        if (data.any { it == "yoshikii" }) {
-            list.add(ContentData(content = "yoshikiiだよ"))
-        }
-        list.add(FooterData(text = "footerだよ"))
-        submitList(list)
+        dataList.add(HeaderData(title = "headerだよ"))
+//        if (data.any { it == "yoshikii" }) {
+//            dataList.add(ContentData(content = "yoshikiiだよ"))
+//        }
+        dataList.add(FooterData(text = "footerだよ"))
+        submitList(dataList.toList())
     }
 
     private val layoutInflater = LayoutInflater.from(context)
+
+    override fun getItemCount(): Int = dataList.size
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
